@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="MiPruebaTecnicaAccess/MiPruebaTecnicaAccess.csproj" />
+  <Project Path="MiPruebaTecnicaAPI/MiPruebaTecnicaAPI.csproj" />
+  <Project Path="MiPruebaTecnicaBL/MiPruebaTecnicaBL.csproj" />
+</Solution>
