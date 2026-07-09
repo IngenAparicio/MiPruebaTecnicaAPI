@@ -87,11 +87,11 @@ namespace MiPruebaTecnicaBL.services
             }
         }
 
-        public async Task<ResponseEntity<List<RegistroAtencionDto>>> GetEntityList(int page, int pageSize)
+        public async Task<ResponseEntity<List<RegistroAtencionDto>>> GetEntityList()
         {
             try
             {
-                var responseAccess = await dataAccess.GetEntityList(page, pageSize);
+                var responseAccess = await dataAccess.GetEntityList();
 
                 if (responseAccess.SuccessProcess && responseAccess.SuccessData)
                 {
@@ -153,7 +153,7 @@ namespace MiPruebaTecnicaBL.services
             }
         }
 
-        public async Task<ResponseEntity<bool>> DeleteEntity(long id)
+        public async Task<ResponseEntity<RegistroAtencionDto>> DeleteEntity(long id)
         {
             try
             {
@@ -161,8 +161,9 @@ namespace MiPruebaTecnicaBL.services
                 var validation = await Validation(id);
 
                 if (!validation)
-                {                    
-                    return ResponseEntity<bool>.Error(false, "Id must be specified");
+                {
+                    var dataDummy2 = new RegistroAtencionDto();
+                    return ResponseEntity<RegistroAtencionDto>.Error(dataDummy2, "Id must be specified");
                 }
 
                 var deleteResult = await dataAccess.DeleteEntity(id);
@@ -170,21 +171,23 @@ namespace MiPruebaTecnicaBL.services
                 if (deleteResult.SuccessProcess && deleteResult.SuccessData)
                 {
 
-                    return ResponseEntity<bool>.Ok(deleteResult.Data, "Successfully deleted");
+                    return ResponseEntity<RegistroAtencionDto>.Ok(deleteResult.Data, "Successfully deleted");
 
                     
                 }
                 else if (!deleteResult.SuccessProcess)
                 {
-                    
-                    return ResponseEntity<bool>.Error(false, "Error while deleting");
+                    var dataDummy2 = new RegistroAtencionDto();
+                    return ResponseEntity<RegistroAtencionDto>.Error(dataDummy2, "Error while deleting");
                 }
 
-                return ResponseEntity<bool>.NotFound(false, "No data to delete");
+                var dataDummy = new RegistroAtencionDto();
+                return ResponseEntity<RegistroAtencionDto>.NotFound(dataDummy, "No data to delete");
             }
             catch (Exception ex)
             {
-                return ResponseEntity<bool>.Error(false, ex.Message);
+                var dataDummy = new RegistroAtencionDto();
+                return ResponseEntity<RegistroAtencionDto>.Error(dataDummy, ex.Message);
             }
         }
 

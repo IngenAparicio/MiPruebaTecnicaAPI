@@ -5,6 +5,7 @@ using MiPruebaTecnicaAccess.entities;
 using MiPruebaTecnicaAccess.interfaces;
 using MiPruebaTecnicaAccess.responses;
 using MiPruebaTecnicaAccess.utilities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MiPruebaTecnicaAccess.access
 {
@@ -79,7 +80,7 @@ namespace MiPruebaTecnicaAccess.access
             }
         }
 
-        public async Task<ResponseEntity<List<RegistroAtencionDto>>> GetEntityList(int page, int pageSize)
+        public async Task<ResponseEntity<List<RegistroAtencionDto>>> GetEntityList()
         {
             try
             {
@@ -89,7 +90,7 @@ namespace MiPruebaTecnicaAccess.access
                     .ExecuteUpdateAsync(updates => updates.SetProperty(x => x.RequiereAuditoria, true));
 
                 var list = await context.RegistroAtencion.Where(x => !string.IsNullOrEmpty(x.CodigoDiagnostico))                    
-                    .OrderByDescending(x => x.FechaAtencion).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();                           
+                    .OrderByDescending(x => x.FechaAtencion).ToListAsync();                           
 
                 var response = new ResponseEntity<List<RegistroAtencionDto>>();
 
@@ -159,7 +160,7 @@ namespace MiPruebaTecnicaAccess.access
             }
         }
 
-        public async Task<ResponseEntity<bool>> DeleteEntity(long id)
+        public async Task<ResponseEntity<RegistroAtencionDto>> DeleteEntity(long id)
         {
             try
             {
@@ -169,30 +170,33 @@ namespace MiPruebaTecnicaAccess.access
                     context.RegistroAtencion.Remove(entityExist);
                     await context.SaveChangesAsync();
 
-                    var response = new ResponseEntity<bool>();
+                    var data = new RegistroAtencionDto();
+                    var response = new ResponseEntity<RegistroAtencionDto>();
                     response.Message = "Successfully deleted";
                     response.SuccessData = true;
-                    response.Data = true;
+                    response.Data = data;
                     response.SuccessProcess = true;
                     return response;
 
                 }
                 else
                 {
-                    var response = new ResponseEntity<bool>();
+                    var data = new RegistroAtencionDto();
+                    var response = new ResponseEntity<RegistroAtencionDto>();
                     response.Message = "No data to remove";
                     response.SuccessData = false;
-                    response.Data = false;
+                    response.Data = data;
                     response.SuccessProcess = true;
                     return response;
                 }
             }
             catch (Exception ex)
             {
-                var response = new ResponseEntity<bool>();
+                var data = new RegistroAtencionDto();
+                var response = new ResponseEntity<RegistroAtencionDto>();
                 response.Message = ex.Message;
                 response.SuccessData = false;
-                response.Data = false;
+                response.Data = data;
                 response.SuccessProcess = false;
                 return response;
             }

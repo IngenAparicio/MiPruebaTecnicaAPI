@@ -9,11 +9,11 @@ namespace MiPruebaTecnicaAccess.interfaces
 
         public Task<ResponseEntity<RegistroAtencionDto>> GetEntityDetail(long id);
 
-        public Task<ResponseEntity<List<RegistroAtencionDto>>> GetEntityList(int page, int pageSize);
+        public Task<ResponseEntity<List<RegistroAtencionDto>>> GetEntityList();
 
         public Task<ResponseEntity<RegistroAtencionDto>> UpdateEntity(RegistroAtencionDto request);
 
-        public Task<ResponseEntity<bool>> DeleteEntity(long id);
+        public Task<ResponseEntity<RegistroAtencionDto>> DeleteEntity(long id);
 
     }
 }

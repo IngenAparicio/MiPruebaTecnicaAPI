@@ -17,10 +17,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:7080") // URL de Angular
-              .AllowAnyHeader()
+        //policy.WithOrigins("http://localhost:4200") // URL de Angular
+        //      .AllowAnyHeader()
+        //      .AllowAnyMethod();
+        policy.AllowAnyOrigin()
               .AllowAnyMethod()
-              .AllowCredentials(); // 👈 importante si usas cookies/auth
+              .AllowAnyHeader();
     });
 });
 
@@ -57,6 +59,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAngularApp");
 
 app.UseAuthorization();
 

@@ -5,7 +5,7 @@ using MiPruebaTecnicaAccess.interfaces;
 
 namespace MiPruebaTecnicaAPI.Controllers
 {
-    [Route("api/atenciones")]
+    
     [ApiController]
     public class RegistroAtencionController : Controller
     {
@@ -24,7 +24,7 @@ namespace MiPruebaTecnicaAPI.Controllers
         /// <response code="200">La atención fue creada correctamente.</response>
         /// <response code="500">Hubo un error al crear el registro.</response>
         [HttpPost]
-        [Route("/Crear")]
+        [Route("api/atenciones/Crear")]
         public async Task<IActionResult> CreateEntity(RegistroAtencionDto request)
         {
             
@@ -44,7 +44,7 @@ namespace MiPruebaTecnicaAPI.Controllers
         /// <response code="404">No existe una atención con el identificador indicado.</response>
         /// <response code="500">Hubo un error al Buscar el registro.</response>
         [HttpGet]
-        [Route("/Detalle/{id}")]
+        [Route("/api/atenciones/Detalle/{id}")]
         public async Task<IActionResult> GetEntityDetail([FromRoute] long id)
         {
             
@@ -61,11 +61,11 @@ namespace MiPruebaTecnicaAPI.Controllers
         /// <response code="404">No existen registros.</response>
         /// <response code="500">Hubo un error al buscar el registro.</response>
         [HttpGet]
-        [Route("/auditoria")]
-        public async Task<IActionResult> GetEntityList(int page = 1, int pageSize = 10)
+        [Route("/api/atenciones/auditoria")]
+        public async Task<IActionResult> GetEntityList()
         {
 
-            var result = await services.GetEntityList(page, pageSize);
+            var result = await services.GetEntityList();
 
             return StatusCode(result.StatusCode, result);
 
@@ -80,7 +80,7 @@ namespace MiPruebaTecnicaAPI.Controllers
         /// <response code="404">No existe la entidad a actualizar.</response>
         /// <response code="500">Hubo un error al actualizar el registro o no se especificó el Id del registro a actualizar.</response>
         [HttpPut]
-        [Route("/Actualizar")]
+        [Route("/api/atenciones/Actualizar")]
         public async Task<IActionResult> UpdateEntity(RegistroAtencionDto request)
         {
             
@@ -99,8 +99,8 @@ namespace MiPruebaTecnicaAPI.Controllers
         /// <response code="404">No existe una atención con el identificador indicado para eliminar.</response>
         /// <response code="500">Hubo un error al eliminar el registro o no se especificó el Id del registro a eliminar.</response>
         [HttpDelete]
-        [Route("/Eliminar/{id}")]
-        public async Task<IActionResult> DeleteEntity([FromRoute] long id)
+        [Route("/api/atenciones/Eliminar")]
+        public async Task<IActionResult> DeleteEntity([FromQuery] long id)
         {
             
             var result = await services.DeleteEntity(id);
