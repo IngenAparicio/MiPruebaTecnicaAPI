@@ -62,6 +62,49 @@ VALUES
 (4, '2026-07-04', 1, 100);
 
 
+-- query crear tabla RegistroAtencion
+
+CREATE TABLE RegistroAtencion
+(
+    IdAtencion INT IDENTITY(1,1) PRIMARY KEY,
+    DocumentoPaciente VARCHAR(20) NOT NULL,
+    CodigoDiagnostico VARCHAR(20) NOT NULL,
+    FechaAtencion DATETIME NOT NULL,
+    RequiereAuditoria BIT NOT NULL DEFAULT(0)
+);
+
+-- query agregar datos tabla registro atención
+
+INSERT INTO RegistroAtencion
+(
+    DocumentoPaciente,
+    CodigoDiagnostico,
+    FechaAtencion,
+    RequiereAuditoria
+)
+VALUES
+('1001001001', 'J189', DATEADD(DAY, -5, GETDATE()), 1),
+('1001001002', 'I100', DATEADD(DAY, -12, GETDATE()), 0),
+('1001001003', NULL, DATEADD(DAY, -8, GETDATE()), 1),
+('1001001004', '', DATEADD(DAY, -3, GETDATE()), 0),
+('1001001005', 'E119', DATEADD(DAY, -45, GETDATE()), 1),
+('1001001006', 'K219', DATEADD(DAY, -60, GETDATE()), 0),
+('1001001007', NULL, DATEADD(DAY, -18, GETDATE()), 0),
+('1001001008', 'N390', DATEADD(DAY, -22, GETDATE()), 1),
+('1001001009', '', DATEADD(DAY, -90, GETDATE()), 0),
+('1001001010', 'M545', DATEADD(DAY, -1, GETDATE()), 1),
+('1001001011', 'J029', DATEADD(DAY, -15, GETDATE()), 0),
+('1001001012', NULL, DATEADD(DAY, -75, GETDATE()), 1),
+('1001001013', 'A090', DATEADD(DAY, -28, GETDATE()), 0),
+('1001001014', '', DATEADD(DAY, -35, GETDATE()), 1),
+('1001001015', 'R509', DATEADD(DAY, -7, GETDATE()), 0),
+('1001001016', 'G439', DATEADD(DAY, -120, GETDATE()), 1),
+('1001001017', NULL, DATEADD(DAY, -2, GETDATE()), 0),
+('1001001018', 'L209', DATEADD(DAY, -55, GETDATE()), 1),
+('1001001019', '', DATEADD(DAY, -14, GETDATE()), 0),
+('1001001020', 'H660', DATEADD(DAY, -40, GETDATE()), 1);
+
+
 -- query búsqueda
 
 SELECT

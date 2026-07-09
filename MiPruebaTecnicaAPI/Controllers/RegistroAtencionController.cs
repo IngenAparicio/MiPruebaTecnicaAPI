@@ -5,7 +5,7 @@ using MiPruebaTecnicaAccess.interfaces;
 
 namespace MiPruebaTecnicaAPI.Controllers
 {
-    
+    [Route("api/atenciones")]
     [ApiController]
     public class RegistroAtencionController : Controller
     {
@@ -16,8 +16,15 @@ namespace MiPruebaTecnicaAPI.Controllers
             services = _services;
         }
 
+        /// <summary>
+        /// Servicio para crear un registro de Atenciones.
+        /// </summary>
+        /// <param request="request">Importante ingresar la entidad completa a crear</param>
+        /// <returns>Retorna la entidad creada con su correspondiente Id de la base de datos.</returns>
+        /// <response code="200">La atención fue creada correctamente.</response>
+        /// <response code="500">Hubo un error al crear el registro.</response>
         [HttpPost]
-        [Route("api/atenciones/Crear")]
+        [Route("/Crear")]
         public async Task<IActionResult> CreateEntity(RegistroAtencionDto request)
         {
             
@@ -27,8 +34,17 @@ namespace MiPruebaTecnicaAPI.Controllers
 
         }
 
+
+        /// <summary>
+        /// Servicio para buscar un registro específico de Atenciones.
+        /// </summary>
+        /// <param id="IdAtencion">Id de la atención a consultar</param>
+        /// <returns>Retorna la entidad creada con su correspondiente Id de la base de datos.</returns>
+        /// <response code="200">La atención fue encontrada.</response>
+        /// <response code="404">No existe una atención con el identificador indicado.</response>
+        /// <response code="500">Hubo un error al Buscar el registro.</response>
         [HttpGet]
-        [Route("api/atenciones/Detalle/{id}")]
+        [Route("/Detalle/{id}")]
         public async Task<IActionResult> GetEntityDetail([FromRoute] long id)
         {
             
@@ -37,8 +53,15 @@ namespace MiPruebaTecnicaAPI.Controllers
             return StatusCode(result.StatusCode, result);
         }
 
+        /// <summary>
+        /// Servicio para realizar auditoría a los registros de Atenciones, se filtran por codigoDiagnostico diferente de null y vacío y se realiza un update a resgistros con fecha mayor a 30 días
+        /// </summary>        
+        /// <returns>Retorna las entidades filtradas.</returns>
+        /// <response code="200">La auditoría fue realizada correctamente.</response>
+        /// <response code="404">No existen registros.</response>
+        /// <response code="500">Hubo un error al buscar el registro.</response>
         [HttpGet]
-        [Route("api/atenciones/auditoria")]
+        [Route("/auditoria")]
         public async Task<IActionResult> GetEntityList(int page = 1, int pageSize = 10)
         {
 
@@ -48,8 +71,16 @@ namespace MiPruebaTecnicaAPI.Controllers
 
         }
 
+        /// <summary>
+        /// Servicio para actualizar un registro de Atenciones.
+        /// </summary>
+        /// <param request="request">Importante ingresar la entidad completa a actualizar</param>
+        /// <returns>Retorna la entidad actualizada con su correspondiente Id de la base de datos.</returns>
+        /// <response code="200">La atención fue actualizada correctamente.</response>
+        /// <response code="404">No existe la entidad a actualizar.</response>
+        /// <response code="500">Hubo un error al actualizar el registro o no se especificó el Id del registro a actualizar.</response>
         [HttpPut]
-        [Route("api/atenciones/Actualizar")]
+        [Route("/Actualizar")]
         public async Task<IActionResult> UpdateEntity(RegistroAtencionDto request)
         {
             
@@ -58,8 +89,17 @@ namespace MiPruebaTecnicaAPI.Controllers
             return StatusCode(result.StatusCode, result);
         }
 
+
+        /// <summary>
+        /// Servicio para eliminar un registro específico de Atenciones.
+        /// </summary>
+        /// <param id="IdAtencion">Id de la atención a eliminar</param>
+        /// <returns>Retorna un boolean para confirmar o no la eliminación.</returns>
+        /// <response code="200">La eliminación fue realizada correctamente.</response>
+        /// <response code="404">No existe una atención con el identificador indicado para eliminar.</response>
+        /// <response code="500">Hubo un error al eliminar el registro o no se especificó el Id del registro a eliminar.</response>
         [HttpDelete]
-        [Route("api/atenciones/Eliminar/{id}")]
+        [Route("/Eliminar/{id}")]
         public async Task<IActionResult> DeleteEntity([FromRoute] long id)
         {
             
