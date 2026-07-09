@@ -38,7 +38,7 @@ namespace MiPruebaTecnicaAPI.Controllers
         }
 
         [HttpGet]
-        [Route("api/atenciones/Lista")]
+        [Route("api/atenciones/auditoria")]
         public async Task<IActionResult> GetEntityList(int page = 1, int pageSize = 10)
         {
 

@@ -83,7 +83,13 @@ namespace MiPruebaTecnicaAccess.access
         {
             try
             {
-                var list = await context.RegistroAtencion.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+                var fechaLimite = DateTime.UtcNow.AddDays(-30);
+
+                await context.RegistroAtencion.Where(x => !string.IsNullOrEmpty(x.CodigoDiagnostico) && x.FechaAtencion < fechaLimite)
+                    .ExecuteUpdateAsync(updates => updates.SetProperty(x => x.RequiereAuditoria, true));
+
+                var list = await context.RegistroAtencion.Where(x => !string.IsNullOrEmpty(x.CodigoDiagnostico))                    
+                    .OrderByDescending(x => x.FechaAtencion).Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();                           
 
                 var response = new ResponseEntity<List<RegistroAtencionDto>>();
 

@@ -1,0 +1,82 @@
+-- query crear tabla pacientes
+CREATE TABLE Pacientes
+(
+    IdPaciente INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(100) NOT NULL,
+    Documento VARCHAR(20) NOT NULL UNIQUE,
+    EstadoAfiliacion VARCHAR(10) NOT NULL,
+    
+    CONSTRAINT CK_Pacientes_EstadoAfiliacion
+        CHECK (EstadoAfiliacion IN ('Activo', 'Inactivo'))
+);
+
+-- query crear Tabla de atenciones
+CREATE TABLE Atenciones
+(
+    IdAtencion INT IDENTITY(1,1) PRIMARY KEY,
+    IdPaciente INT NOT NULL,
+    FechaAtencion DATE NOT NULL,
+    Facturado BIT NOT NULL DEFAULT(0),
+    Valor BIGINT NOT NULL,
+
+    CONSTRAINT FK_Atenciones_Pacientes
+        FOREIGN KEY (IdPaciente)
+        REFERENCES Pacientes(IdPaciente),
+
+    CONSTRAINT CK_Atenciones_Valor
+        CHECK (Valor >= 0)
+);
+
+-- query agregar pacientes 
+
+INSERT INTO Pacientes (Nombre, Documento, EstadoAfiliacion)
+VALUES
+('Juan Pérez', '1001001001', 'Activo'),
+('María Gómez', '1001001002', 'Activo'),
+('Carlos Rodríguez', '1001001003', 'Inactivo'),
+('Ana Martínez', '1001001004', 'Activo'),
+('Luis Fernández', '1001001005', 'Activo'),
+('Laura Sánchez', '1001001006', 'Inactivo'),
+('Pedro Ramírez', '1001001007', 'Activo'),
+('Sofía Torres', '1001001008', 'Activo'),
+('Miguel Herrera', '1001001009', 'Inactivo'),
+('Valentina Castro', '1001001010', 'Activo');
+
+
+-- query agregar atenciones
+INSERT INTO Atenciones (IdPaciente, FechaAtencion, Facturado, Valor)
+VALUES
+(1, '2026-07-01', 0, 85000),
+(2, '2026-07-01', 0, 120000),
+(3, '2026-07-02', 1, 65000),
+(4, '2026-07-02', 1, 250000),
+(5, '2026-07-03', 0, 98000),
+(6, '2026-07-03', 1, 0),
+(7, '2026-07-04', 0, 45000),
+(8, '2026-07-05', 1, 300000),
+(9, '2026-07-06', 0, 0),
+(10, '2026-07-07', 1, 150000),
+(1, '2026-07-06', 0, 85000),
+(2, '2026-07-03', 0, 120000),
+(3, '2026-07-03', 1, 65000),
+(4, '2026-07-04', 1, 100);
+
+
+-- query búsqueda
+
+SELECT
+    p.IdPaciente,
+    p.Documento,
+    p.Nombre,
+    SUM(a.Valor) AS TotalAtenciones
+FROM Pacientes p
+INNER JOIN Atenciones a
+    ON p.IdPaciente = a.IdPaciente
+WHERE p.EstadoAfiliacion = 'Activo'
+    AND a.Facturado = 0
+GROUP BY
+    p.IdPaciente,
+    p.Documento,
+    p.Nombre
+ORDER BY
+    TotalAtenciones DESC;
